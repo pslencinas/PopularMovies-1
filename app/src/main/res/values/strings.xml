@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Popular Movies I</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="order_by">Order by...</string>
+    <string name="pref_order_key">OrderBy</string>
+    <string name="pref_order_default" translatable="false">Order by Popular</string>
+
+    <string name="pref_order_popular_label">Order by Popular</string>
+    <string name="pref_order_rated_label">Order by Most-Rated</string>
+
+    <string name="pref_order_popular">popular</string>
+    <string name="pref_order_rated">top_rated</string>
+
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="action_share">Share</string>
+</resources>
