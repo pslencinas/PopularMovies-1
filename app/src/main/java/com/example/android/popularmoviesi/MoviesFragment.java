@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class MoviesFragment extends Fragment {
 
-    private ArrayAdapter<String> mMoviesAdapter;
+    //private ArrayAdapter<String> mMoviesAdapter;
     private GridView gridView;
     private int qtyMovies;
     private String []resultTitle;
@@ -58,7 +58,25 @@ public class MoviesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            resultUrlMovies = savedInstanceState.getStringArray("list");
+
+        } else {
+            // Probably initialize members with default values for a new instance
+        }
+
+
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putStringArray("list", resultUrlMovies);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -69,6 +87,22 @@ public class MoviesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) rootView.findViewById(R.id.gridview_movies);
 
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                //Log.v("OnItemClick", "Movies position: " + position);
+
+                Intent detail = new Intent(getActivity(), DetailActivity.class);
+                detail.putExtra("URL", resultUrlMovies[position] );
+                detail.putExtra("TITLE", resultTitle[position]);
+                detail.putExtra("OVERVIEW", resultOverview[position]);
+                detail.putExtra("AVERAGE", resultAverage[position]);
+                detail.putExtra("RELEASE", resultRelease[position]);
+
+                startActivity(detail);
+            }
+        });
 
         return rootView;
     }
@@ -103,37 +137,22 @@ public class MoviesFragment extends Fragment {
                     .into((ImageView) convertView);
 
 
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                    //Log.v("OnItemClick", "Movies position: " + position);
-
-                    Intent detail = new Intent(getActivity(), DetailActivity.class);
-                    detail.putExtra("URL", resultUrlMovies[position] );
-                    detail.putExtra("TITLE", resultTitle[position]);
-                    detail.putExtra("OVERVIEW", resultOverview[position]);
-                    detail.putExtra("AVERAGE", resultAverage[position]);
-                    detail.putExtra("RELEASE", resultRelease[position]);
-
-                    startActivity(detail);
-                }
-            });
-
-
             return convertView;
         }
     }
 
-    public void onStart(){
-        super.onStart();
+    public void onResume(){
+        super.onResume();
         updateMovies();
     }
+
+
 
     public void updateMovies(){
 
         FetchMoviesTask moviesTask = new FetchMoviesTask();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String order = prefs.getString(getString(R.string.pref_order_key),getString(R.string.pref_order_default));
+        String order = prefs.getString(getString(R.string.pref_order_key),"popular");
 
         moviesTask.execute(order);
 
