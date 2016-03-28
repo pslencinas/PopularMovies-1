@@ -90,6 +90,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 Picasso.with(c).load(sURLMovie).fit()
                         .into((ImageView) rootView.findViewById(R.id.imageView));
+
                 ((TextView) rootView.findViewById(R.id.title_text)).setText(sTitleMovie);
                 ((TextView) rootView.findViewById(R.id.overview_text)).setText(sOverview);
                 ((TextView) rootView.findViewById(R.id.release_text)).setText(sRelease);

@@ -223,7 +223,7 @@ public class MoviesFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
-           String apiKey = "null";	//add API KEY
+           String apiKey = "51a87f587e6133114d474587906cf2da";	//add API KEY
             int qtyMovies = 10;
 
             try {
